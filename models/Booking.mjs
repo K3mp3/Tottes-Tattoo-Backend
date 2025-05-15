@@ -18,7 +18,7 @@ const bookingSchema = new mongoose.Schema({
     required: [true, "Kundens e-post adress måste anges"],
   },
   image: {
-    type: File,
+    type: String,
     required: false,
   },
 });
