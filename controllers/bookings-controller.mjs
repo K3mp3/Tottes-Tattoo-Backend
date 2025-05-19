@@ -15,6 +15,18 @@ export const getAllBookings = catchErrorAsync(async (req, res) => {
   res.status(200).json({ sucess: true, data: bookings });
 });
 
+// Tillgänglighet
+const bookingRepo = new BookingRepository();
+const existing = await bookingRepo.getByDateTimeAndEmployee(
+  bookingData.date,
+  bookingData.time,
+  bookingData.employee
+);
+
+if (existing) {
+  return res.status(409).json({ success: false, message: "Tiden är redan bokad" });
+}
+
 export const addBooking = catchErrorAsync(async (req, res) => {
   const bookingData = { ...req.body };
   
@@ -79,4 +91,24 @@ export const deleteBooking = catchErrorAsync(async (req, res) => {
   
   await bookingRepo.delete(req.params.id);
   res.status(200).json({ success: true, message: 'Booking deleted successfully' });
+});
+
+
+// Bokning
+
+export const getAvailability = catchErrorAsync(async (req, res) => {
+  const { date, employee } = req.query;
+
+  if (!date || !employee) {
+    return res.status(400).json({ success: false, message: "Datum och tatuerare krävs" });
+  }
+
+  const times = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+
+  const bookings = await Booking.find({ date: new Date(date), employee });
+
+  const bookedTimes = bookings.map(b => b.time);
+  const availableTimes = times.filter(t => !bookedTimes.includes(t));
+
+  res.status(200).json({ success: true, availableTimes });
 });

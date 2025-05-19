@@ -5,6 +5,11 @@ export default class BookingRepository {
     return await Booking.find();
   }
 
+  // Tillgänglighet
+  async getByDateTimeAndEmployee(date, time, employee) {
+  return await Booking.findOne({ date, time, employee });
+}
+
   async add(booking) {
     return await Booking.create(booking);
   }

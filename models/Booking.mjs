@@ -21,6 +21,25 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+
+  // Tillgänglighet
+  date: {
+    type: Date,
+    required: [true, "Datum måste angess"]
+  },
+    time: {
+    type: String,
+    required: [true, "Tid måste anges"]
+  },
+    duration: {
+    type: Number,
+    required: true, default: 60
+  },
+    employee: {
+    type: String,
+    required: [true, "Tatuerare måste anges"]
+  },
+
 });
 
 export default mongoose.model("Booking", bookingSchema);

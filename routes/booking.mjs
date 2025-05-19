@@ -10,6 +10,9 @@ import { upload } from "../utilities/imageUpload.mjs";
 
 const bookingRouter = express.Router();
 
+//Tillgänglighet
+bookingRouter.get("/availability", getAvailability);
+
 bookingRouter.route("/bookings")
   .get(getAllBookings)
   .post(upload.single('image'), addBooking);
