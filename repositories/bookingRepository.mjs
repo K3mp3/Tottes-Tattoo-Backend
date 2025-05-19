@@ -7,25 +7,29 @@ export default class BookingRepository {
 
   // Tillgänglighet
   async getByDateTimeAndEmployee(date, time, employee) {
-  return await Booking.findOne({ date, time, employee });
-}
+    return await Booking.findOne({ date, time, employee });
+  }
+
+  async getAvailabilityByDateTime(date) {
+    return await Booking.find({ date });
+  }
 
   async add(booking) {
     return await Booking.create(booking);
   }
-  
+
   async getById(id) {
     return await Booking.findById(id);
   }
-  
+
   async update(id, bookingData) {
     return await Booking.findByIdAndUpdate(
-      id, 
-      bookingData, 
+      id,
+      bookingData,
       { new: true, runValidators: true }
     );
   }
-  
+
   async delete(id) {
     return await Booking.findByIdAndDelete(id);
   }

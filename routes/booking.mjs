@@ -4,7 +4,8 @@ import {
   getAllBookings,
   getBookingById,
   updateBooking,
-  deleteBooking
+  deleteBooking,
+  getAvailability
 } from "../controllers/bookings-controller.mjs";
 import { upload } from "../utilities/imageUpload.mjs";
 
