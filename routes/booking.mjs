@@ -1,26 +1,27 @@
 import express from "express";
 import {
   addBooking,
+  deleteBooking,
   getAllBookings,
+  getAvailability,
   getBookingById,
   updateBooking,
-  deleteBooking,
-  getAvailability
 } from "../controllers/bookings-controller.mjs";
 import { upload } from "../utilities/imageUpload.mjs";
 
 const bookingRouter = express.Router();
 
-//Tillgänglighet
 bookingRouter.get("/availability", getAvailability);
 
-bookingRouter.route("/bookings")
+bookingRouter
+  .route("/bookings")
   .get(getAllBookings)
-  .post(upload.single('image'), addBooking);
+  .post(upload.single("file"), addBooking);
 
-bookingRouter.route("/bookings/:id")
+bookingRouter
+  .route("/bookings/:id")
   .get(getBookingById)
-  .patch(upload.single('image'), updateBooking)
+  .patch(upload.single("file"), updateBooking)
   .delete(deleteBooking);
 
 export default bookingRouter;
