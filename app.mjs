@@ -6,9 +6,11 @@ import logger from "morgan";
 import path from "path";
 import bookingRouter from "./routes/booking.mjs";
 
+import dotenv from "dotenv";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import AppError from "./models/appError.mjs";
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,12 +18,8 @@ const __dirname = dirname(__filename);
 const app = express();
 
 const init = async () => {
-  // console.log(process.env.MONGODB_URI);
-
   try {
-    await mongoose.connect(
-      "mongodb+srv://k3mp3:k3mp3@cluster.oxwzxut.mongodb.net/tottes-tattoo"
-    );
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("connected!");
   } catch (error) {
     console.log(error);
@@ -37,7 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use("/api/v1", bookingRouter);
 
